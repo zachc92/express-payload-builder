@@ -15,7 +15,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "webpack serve --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
@@ -27,5 +27,9 @@
     "webpack-cli": "^7.0.3",
     "webpack-dev-server": "^5.2.5",
     "webpack-merge": "^6.0.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^8.0.2",
+    "jest": "^30.4.2"
   }
 }

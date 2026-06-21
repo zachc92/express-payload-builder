@@ -14,15 +14,15 @@
         <form action="" id="merchant-credentials-form">
             <h3>Processing Credentials</h3>
             <label for="account-id">Account ID</label>
-            <input type="text" name="account-id" id="account-id" required>
+            <input type="text" name="account-id" id="account-id" required minlength="7" maxlength="10" autocomplete="off">
             <label for="account-token">Account Token</label>
-            <input type="text" name="account-token" id="account-token" required>
+            <input type="password" name="account-token" id="account-token" required minlength="72" maxlength="140">
             <label for="acceptor-id">Acceptor ID</label>
-            <input type="text" name="acceptor-id" id="acceptor-id" required>
+            <input type="text" name="acceptor-id" id="acceptor-id" required minlength="9" maxlength="50" autocomplete="off">
             <label for="application-id">Application ID</label>
-            <input type="text" name="application-id" id="application-id" required>
+            <input type="text" name="application-id" id="application-id" required minlength="4" maxlength="40" autocomplete="off">
             <label for="application-name">Application Name</label>
-            <input type="text" name="application-name" id="application-name" required>
+            <input type="text" name="application-name" id="application-name" required minlength="3" maxlength="50" autocomplete="off">
             <button type="submit">Submit Credentials</button>
         </form>
     </div>
