@@ -2,10 +2,13 @@ import "./styles.css"
 import { MerchantCredentialSet } from "./merchantCredentialSet.js";
 import { setCredentials, getCredentials } from "./credentials.js";
 import { formValidation } from "./formValidation.js"
+import { showForm } from "./dom.js";
 
 const controller = (() => {
     const merchantCredentialsForm = document.querySelector('#merchant-credentials-form');
     const inputs = merchantCredentialsForm.querySelectorAll('input');
+
+    getCredentials() === null ? showForm(merchantCredentialsForm) : "do nothing";
 
     merchantCredentialsForm.addEventListener('submit', (e) => {
         e.preventDefault();
