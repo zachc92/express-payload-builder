@@ -380,3 +380,11 @@ form {
     overflow-x: auto;
     white-space: pre-wrap;
 }
+
+#main-body input[type="text"], 
+#main-body input[type="password"] {
+    background-color: #242c3d !important; /* Direct Eva Dark Slate input token */
+    color: #4bcae3 !important;            /* Direct Cyan text parameter token */
+    border: 1px solid #2e374a !important;
+    font-family: "SF Mono", Monaco, Consolas, monospace !important;
+}
