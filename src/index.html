@@ -25,7 +25,36 @@
             <input type="text" name="application-name" id="application-name" required minlength="3" maxlength="50" autocomplete="off">
             <button type="submit">Submit Credentials</button>
         </form>
+        <form action="" id="transaction-payload-form">
+            <h3>Transaction Information</h3>
+            <label for="market-code">Market Code</label>
+            <select name="market-code" id="market-code">
+                <option value="ecomm">Ecommerce</option>
+                <option value="moto">Direct Marketing (MOTO)</option>
+            </select>
+            <label for="transaction-type">Transaction Type</label>
+            <select name="transaction-type" id="transaction-type">
+                <option value="sale">Sale</option>
+                <option value="authorization">Authorization</option>
+                <option value="authorization-completion">Authorization Completion</option>
+                <option value="reversal">Reversal</option>
+                <option value="return">Return</option>
+            </select>
+            <label for="transaction-amount">Transaction Amount</label>
+            <input type="text" name="transaction-amount" id="transaction-amount" required>
+            <label for="transaction-reference-number">Reference Number</label>
+            <input type="text" name="transaction-reference-number" id="transaction-reference-number" required>
+            <label for="transaction-ticket-number">Ticket Number</label>
+            <input type="text" name="transaction-ticket-number" id="transaction-ticket-number">
+            <div class="follow-up">
+                <label for="transaction-id">TransactionID</label>
+                <input type="text" name="transaction-id" id="transaction-id">
+            </div>
+            <button type="submit">Generate Request</button>
+        </form>
     </div>
+    <div id="generated-request"></div>
+    <div id="alert-modal"></div>
     
 </body>
 </html>
