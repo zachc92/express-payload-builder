@@ -1,4 +1,4 @@
-const formValidation = (inputs) => {
+const merchantFormValidation = (inputs) => {
     let credentials ={ accountId: null, accountToken: null, acceptorId: null, applicationId: null, applicationName: null }
     let isValid = true;
 
@@ -24,7 +24,6 @@ const formValidation = (inputs) => {
                 }
                 credentials.acceptorId = Number(element.value);
                 break;
-                
             case "application-id":
                 if (Number.isNaN(Number(element.value))) {
                     alert('Application ID must be a number between 7 and 10 digits.');
@@ -57,4 +56,8 @@ const formValidation = (inputs) => {
     }
 };
 
-export { formValidation };
+const transactionFormValidation = () => {
+
+};
+
+export { merchantFormValidation, transactionFormValidation };
