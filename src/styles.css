@@ -381,10 +381,35 @@ form {
     white-space: pre-wrap;
 }
 
-#main-body input[type="text"], 
-#main-body input[type="password"] {
-    background-color: #242c3d !important; /* Direct Eva Dark Slate input token */
-    color: #4bcae3 !important;            /* Direct Cyan text parameter token */
-    border: 1px solid #2e374a !important;
-    font-family: "SF Mono", Monaco, Consolas, monospace !important;
+/* ==========================================================================
+   10. UNIVERSAL PRODUCTION FIELD ENFORCEMENT
+   ========================================================================== */
+
+/* 
+  By combining structural tags (#main-body input) with universal form selectors,
+  the production optimizer cannot flag this block as dead code.
+*/
+#main-body input,
+#main-body select,
+.modal-card input {
+    display: block;
+    width: 100%;
+    padding: 0.65rem 0.85rem !important;
+    margin-bottom: 1.25rem !important;
+    background-color: #242c3d !important; /* Force Eva Dark Input Base */
+    border: 1px solid #2e374a !important;   /* Force Slate Boundary Box */
+    border-radius: var(--radius) !important;
+    color: #4bcae3 !important;            /* Force Active Cyan Text */
+    font-size: 0.9rem !important;
+    font-family: var(--font-stack) !important;
+    transition: var(--transition);
+    outline: none !important;
+}
+
+/* Maintain crisp focus highlights during active user input */
+#main-body input:focus,
+#main-body select:focus {
+    border-color: #4bcae3 !important;
+    background-color: rgba(36, 44, 61, 0.7) !important;
+    box-shadow: 0 0 0 2px rgba(75, 202, 227, 0.2) !important;
 }
