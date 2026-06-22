@@ -1,6 +1,6 @@
 const ecomm = {
     cardholderPresentCode: 7,
-    cardholderInputCode: 4,
+    cardInputCode: 4,
     cardPresentCode: 3,
     cvvPresenceCode: 1,
     marketCode: 3,
@@ -12,7 +12,7 @@ const ecomm = {
 
 const moto = {
     cardholderPresentCode: 5,
-    cardholderInputCode: 4,
+    cardInputCode: 4,
     cardPresentCode: 3,
     cvvPresenceCode: 1,
     marketCode: 2,
