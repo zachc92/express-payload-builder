@@ -1,16 +1,17 @@
 const merchantFormValidation = (inputs) => {
     let credentials ={ accountId: null, accountToken: null, acceptorId: null, applicationId: null, applicationName: null }
     let isValid = true;
+    let message = '';
 
     for (const element of inputs) {
         switch (element.id) {
             case "account-id":
                 if (Number.isNaN(Number(element.value))) {
-                    alert('Account ID must be a number between 7 and 10 digits.');
+                    message = 'Account ID must be a number between 7 and 10 digits';
                     isValid = false;
                     break;
                 }
-                credentials.accountId = Number(element.value);
+                credentials.accountId = element.value;
                 break;
                 
             case "account-token":
@@ -19,18 +20,19 @@ const merchantFormValidation = (inputs) => {
                 
             case "acceptor-id":
                 if (Number.isNaN(Number(element.value))) {
-                    alert('Acceptor ID must be a number between 9 and 50 digits.');
-                    break;
-                }
-                credentials.acceptorId = Number(element.value);
-                break;
-            case "application-id":
-                if (Number.isNaN(Number(element.value))) {
-                    alert('Application ID must be a number between 7 and 10 digits.');
+                    message = 'Acceptor ID must be a number between 9 and 50 digits.';
                     isValid = false;
                     break;
                 }
-                credentials.applicationId = Number(element.value);
+                credentials.acceptorId = element.value;
+                break;
+            case "application-id":
+                if (Number.isNaN(Number(element.value))) {
+                    message = 'Application ID must be a number between 7 and 10 digits.';
+                    isValid = false;
+                    break;
+                }
+                credentials.applicationId = element.value;
                 break;
                 
             case "application-name":
@@ -52,12 +54,17 @@ const merchantFormValidation = (inputs) => {
         }
         return credentials;
     } else {
-        return false;
+        return { isValid: false, error: message};
     }
 };
 
-const transactionFormValidation = () => {
-
+const transactionFormValidation = (amount) => {
+    const amountRegex = /^\d+\.\d{2}$/;
+    if(!amountRegex.test(amount) || parseFloat(amount) <= 0){
+        return { isValid: false, error: 'Please enter a valid transaction amount, including two decimal places (E.g., 32.01)' };
+    } else {
+        return { isValid: true };
+    }
 };
 
 export { merchantFormValidation, transactionFormValidation };
