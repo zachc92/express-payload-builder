@@ -1,43 +1,55 @@
-const generateRequestBody = (market, transactionInfo) => {
-
+const generateRequestBody = (terminalSettings, transactionInfo, credentials) => {
+    let followUp = false;
+    let xmlTag = '';
+    if(transactionInfo.transactionType === 'sale'){ xmlTag = 'CreditCardSale' }
+    else if(transactionInfo.transactionType === 'authorization'){ xmlTag = 'CreditCardAuthorization' }
+    else if(transactionInfo.transactionType === 'authorization-completion'){ xmlTag = 'CreditCardAuthorizationCompletion'; followUp = true }
+    else if(transactionInfo.transactionType === 'reversal'){ xmlTag = 'CreditCardReversal'; followUp = true }
+    else if(transactionInfo.transactionType === 'return'){ xmlTag = 'CreditCardReturn'; followUp = true; }
     return`
-        <CreditCardSale xmlns="https://transaction.elementexpress.com">
-            <Credentials>
-                <AccountID></AccountID>
-                <AccountToken>{{AccountToken}}</AccountToken>
-                <AcceptorID>{{AcceptorID}}</AcceptorID>
-            </Credentials>
-            <Application>
-                <ApplicationID>{{ApplicationID}}</ApplicationID>
-                <ApplicationName>{{ApplicationName}}</ApplicationName>
-                <ApplicationVersion>1.0</ApplicationVersion>
-            </Application>
-            <Card>
-                <CardNumber>4895281000000006</CardNumber>
-                <ExpirationMonth>12</ExpirationMonth>
-                <ExpirationYear>26</ExpirationYear>
-            </Card>
-            <Transaction>
-                <TransactionAmount>${transactionAmount}</TransactionAmount>
-                <MarketCode>3</MarketCode>
-                <ReferenceNumber>R123456</ReferenceNumber>
-                <TicketNumber>T123456</TicketNumber>
-                <PartialApprovedFlag>0</PartialApprovedFlag>
-                <DuplicateCheckDisableFlag>1</DuplicateCheckDisableFlag>
-            </Transaction>
-            <Terminal>
-                <CardholderPresentCode>7</CardholderPresentCode>
-                <CardInputCode>4</CardInputCode>
-                <CardPresentCode>3</CardPresentCode>
-                <CVVPresenceCode>0</CVVPresenceCode>
-                <MotoECICode>7</MotoECICode> 
-                <TerminalCapabilityCode>5</TerminalCapabilityCode>
-                <TerminalEnvironmentCode>6</TerminalEnvironmentCode>
-                <TerminalType>2</TerminalType>
-                <TerminalID>0001</TerminalID>
-            </Terminal>
-        </CreditCardSale>
-        `
+<${xmlTag} xmlns="https://transaction.elementexpress.com">
+    <Credentials>
+        <AccountID>${credentials.accountId}</AccountID>
+        <AccountToken>Account Token Goes Here</AccountToken>
+        <AcceptorID>${credentials.acceptorId}</AcceptorID>
+    </Credentials>
+    <Application>
+        <ApplicationID>${credentials.applicationId}</ApplicationID>
+        <ApplicationName>${credentials.applicationName}</ApplicationName>
+        <ApplicationVersion>1.0</ApplicationVersion>
+    </Application>
+    <Card>
+        <CardNumber>TEST CARD NUMBER</CardNumber>
+        <ExpirationMonth>MM</ExpirationMonth>
+        <ExpirationYear>YY</ExpirationYear>
+    </Card>
+    <Transaction>
+        <TransactionAmount>${transactionInfo.transactionAmount}</TransactionAmount>
+        <MarketCode>${terminalSettings.marketCode}</MarketCode>
+        <ReferenceNumber>${transactionInfo.referenceNumber}</ReferenceNumber>
+        <TicketNumber>${transactionInfo.ticketNumber}</TicketNumber>${
+          followUp === true 
+            ? `\n        <TransactionID>${transactionInfo.transactionId}</TransactionID>` 
+            : ''
+        }${
+          xmlTag === 'CreditCardReversal' 
+            ? `\n        <ReversalType>1</ReversalType> <!-- This is a full reversal by default. For partial reversals, use ReversalType '2' -->` 
+            : ''
+        }
+    </Transaction>
+    <Terminal>
+        <CardholderPresentCode>${terminalSettings.cardholderPresentCode}</CardholderPresentCode>
+        <CardInputCode>${terminalSettings.cardInputCode}</CardInputCode>
+        <CardPresentCode>${terminalSettings.cardPresentCode}</CardPresentCode>
+        <CVVPresenceCode>${terminalSettings.cvvPresenceCode}</CVVPresenceCode>
+        <MotoECICode>${terminalSettings.motoEciCode}</MotoECICode> 
+        <TerminalCapabilityCode>${terminalSettings.terminalCapabilityCode}</TerminalCapabilityCode>
+        <TerminalEnvironmentCode>${terminalSettings.terminalEnvironmentCode}</TerminalEnvironmentCode>
+        <TerminalType>${terminalSettings.terminalType}</TerminalType>
+        <TerminalID>0001</TerminalID>
+    </Terminal>
+</${xmlTag}>
+`
 };
 
 export { generateRequestBody };

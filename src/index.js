@@ -11,15 +11,13 @@ const controller = (() => {
     const merchantInputs = merchantCredentialsForm.querySelectorAll('input');
     const transactionPayloadForm = document.querySelector('#transaction-payload-form');
 
-    // if(getCredentials() === null) { showForm(merchantCredentialsForm) }
-
-    showForm(transactionPayloadForm);
+    if(getCredentials() === null) { showForm(merchantCredentialsForm) }
 
     merchantCredentialsForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const result = merchantFormValidation(merchantInputs);
-        if(result === false){
-            renderAlertModal('Please fill out the form correctly!');
+        if(result.isValid === false){
+            renderAlertModal(result.error);
         } else {
             setCredentials(result);
             showForm(transactionPayloadForm);
@@ -28,27 +26,29 @@ const controller = (() => {
 
     transactionPayloadForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const marketCode = document.querySelector('#market-code');
-        const transactionType = document.querySelector('#transaction-type');
-        const transactionAmount = document.querySelector('#transaction-amount');
-        const transactionReferenceNumber = document.querySelector('#transaction-reference-number');
-        const transactionTicketNumber = document.querySelector('#transaction-ticket-number');
-        const transactionId = document.querySelector('#transaction-id');
+        const marketCode = transactionPayloadForm.querySelector('#market-code');
+        const transactionType = transactionPayloadForm.querySelector('#transaction-type');
+        const transactionAmount = transactionPayloadForm.querySelector('#transaction-amount');
+        const transactionReferenceNumber = transactionPayloadForm.querySelector('#transaction-reference-number');
+        const transactionTicketNumber = transactionPayloadForm.querySelector('#transaction-ticket-number');
+        const transactionId = transactionPayloadForm.querySelector('#transaction-id');
 
         const transactionInformation = {
+            marketCode: marketCode.value,
             transactionType: transactionType.value,
-            transactionAmount: transactionAmount.value,
-            transactionReferenceNumber: transactionReferenceNumber.value,
-            transactionTicketNumber: transactionTicketNumber.value,
+            transactionAmount: Number(transactionAmount.value).toFixed(2),
+            referenceNumber: transactionReferenceNumber.value,
+            ticketNumber: transactionTicketNumber.value,
             transactionId: transactionId.value
         };
 
-        transactionFormValidation(transactionInformation);
-
-        const request = marketCode.value === "ecomm" ? generateRequestBody(ecomm, transactionInformation) : generateRequestBody(moto, transactionInformation);
-
-        console.log(request);
-
-        // const request = generateRequestBody(marketCode.value, transactionType.value, transactionAmount.value, transactionReferenceNumber.value, transactionTicketNumber.value, transactionId.value);
+        const result = transactionFormValidation(transactionAmount.value);
+        if(result.isValid === false){
+            renderAlertModal(result.error);
+        } else if(result.isValid === true) {
+            const request = marketCode.value === "ecomm" ? generateRequestBody(ecomm, transactionInformation, getCredentials()) : generateRequestBody(moto, transactionInformation, getCredentials());
+            renderTransactionPayloadDisplay(request);
+        }
+    
     })
 })();
