@@ -11,7 +11,12 @@
    },
    plugins: [
      new HtmlWebpackPlugin({
-       template: "./src/index.html"
+       template: "./src/index.html",
+       minify: {
+        removeRedundantAttributes: false,
+        collapseWhitespace: true, // Optional: keeps code light for prod
+        removeComments: true      // Optional: strips dev notes for prod
+      }
      }),
    ],
    output: {
